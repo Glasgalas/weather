@@ -1,0 +1,14 @@
+.weather {
+  color: rgb(14, 13, 13);
+  text-shadow: 2px 2px 2px rgba(182, 156, 148, 0.5);
+  text-align: center;
+}
+
+img {
+  width: 25vw;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

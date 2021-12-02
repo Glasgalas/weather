@@ -1,7 +1,12 @@
+import Info from './components/Info';
 import './App.css';
 
 function App() {
-  return <>hello</>;
+  return (
+    <>
+      <Info />
+    </>
+  );
 }
 
 export default App;
