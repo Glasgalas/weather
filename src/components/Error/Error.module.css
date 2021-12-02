@@ -1,0 +1,18 @@
+.errorWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.err {
+  width: 60vw;
+  height: 8vh;
+  border: 2px solid #1976d2;
+  border-radius: 10px;
+  background: rgba(54, 221, 221, 0.5);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
