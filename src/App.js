@@ -1,5 +1,6 @@
 import SearchBar from './components/SearchBar';
 import Info from './components/Info';
+import SliderBar from './components/SliderBar';
 
 import { useState, useEffect } from 'react';
 import { weatherApiStart, weatherApi } from './api/services';
@@ -81,6 +82,14 @@ function App() {
     }
   };
 
+  // управление температурой на слайдере
+  const changeTemp = e => {
+    setState(prev => ({
+      ...prev,
+      temp: e.target.value,
+    }));
+  };
+
   return (
     <>
       <SearchBar fetch={fetch} />
@@ -93,6 +102,7 @@ function App() {
         humidity={humidity}
         speed={speed}
       />
+      <SliderBar temp={temp} changeTemp={changeTemp} />
     </>
   );
 }
