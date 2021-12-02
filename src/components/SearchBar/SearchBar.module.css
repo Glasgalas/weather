@@ -1,0 +1,29 @@
+.searchBar {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  padding-left: 20px;
+  width: 60vw;
+  outline: none;
+  border-right: none;
+  border-left: 2px solid #1976d2;
+  border-bottom: 2px solid #1976d2;
+  border-top: 2px solid #1976d2;
+  background: rgba(54, 221, 221, 0.5);
+  border-radius: 10px 0px 0px 10px;
+  color: black;
+}
+
+.btn {
+  width: 20vw;
+  outline: none;
+  border-left: 2px solid #1976d2;
+  border-right: 2px solid #1976d2;
+  border-bottom: 2px solid #1976d2;
+  border-top: 2px solid #1976d2;
+  background: rgba(54, 221, 221, 0.5);
+  border-radius: 0px 10px 10px 0px;
+  color: black;
+}
