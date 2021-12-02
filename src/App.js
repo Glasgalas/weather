@@ -1,6 +1,8 @@
 import SearchBar from './components/SearchBar';
 import Info from './components/Info';
 import SliderBar from './components/SliderBar';
+import Error from './components/Error';
+import Empty from './components/Empty';
 
 import { useState, useEffect } from 'react';
 import { weatherApiStart, weatherApi } from './api/services';
@@ -22,6 +24,7 @@ function App() {
   const [state, setState] = useState(initialState);
   const { icon, city, country, temp, description, humidity, speed } = state;
   const [error, setError] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     getLocation();
@@ -59,6 +62,8 @@ function App() {
   //поиск по городу
   const fetch = query => {
     if (!query) {
+      setEmpty(true);
+      setError(false);
       console.log('first enter your query');
       return;
     } else {
@@ -74,9 +79,11 @@ function App() {
             speed: data.wind.speed,
           });
           setError(false);
+          setEmpty(false);
         })
         .catch(error => {
           setError(true);
+          setEmpty(false);
           setState(initialState);
         });
     }
@@ -93,15 +100,21 @@ function App() {
   return (
     <>
       <SearchBar fetch={fetch} />
-      <Info
-        icon={icon}
-        city={city}
-        country={country}
-        temp={temp}
-        description={description}
-        humidity={humidity}
-        speed={speed}
-      />
+      {!city && error && <Error />}
+      {empty && !error ? (
+        <Empty />
+      ) : (
+        <Info
+          icon={icon}
+          city={city}
+          country={country}
+          temp={temp}
+          description={description}
+          humidity={humidity}
+          speed={speed}
+        />
+      )}
+
       <SliderBar temp={temp} changeTemp={changeTemp} />
     </>
   );
