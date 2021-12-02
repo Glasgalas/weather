@@ -7,7 +7,7 @@ import Empty from './components/Empty';
 import { useState, useEffect } from 'react';
 import { weatherApiStart, weatherApi } from './api/services';
 
-import './App.css';
+import s from './App.module.css';
 
 // начальный стейт
 const initialState = {
@@ -26,6 +26,7 @@ function App() {
   const [error, setError] = useState(false);
   const [empty, setEmpty] = useState(false);
 
+  // действие при загрузке
   useEffect(() => {
     getLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +65,6 @@ function App() {
     if (!query) {
       setEmpty(true);
       setError(false);
-      console.log('first enter your query');
       return;
     } else {
       weatherApi(query)
@@ -98,7 +98,24 @@ function App() {
   };
 
   return (
-    <>
+    <div
+      className={[
+        (temp > 30 && s.bg1) ||
+          (temp === 30 && s.bg1) ||
+          (temp > 25 && temp < 30 && s.bg2) ||
+          (temp > 20 && temp < 26 && s.bg3) ||
+          (temp > 15 && temp < 21 && s.bg4) ||
+          (temp > 10 && temp < 16 && s.bg5) ||
+          (temp === 10 && s.bg6) ||
+          (temp > 5 && temp < 10 && s.bg7) ||
+          (temp > -1 && temp < 6 && s.bg8) ||
+          (temp > -6 && temp < 0 && s.bg9) ||
+          (temp > -10 && temp < -5 && s.bg10) ||
+          (temp === -10 && s.bg11) ||
+          (temp < -10 && s.bg11),
+        s.wrapper,
+      ].join(' ')}
+    >
       <SearchBar fetch={fetch} />
       {!city && error && <Error />}
       {empty && !error ? (
@@ -114,9 +131,8 @@ function App() {
           speed={speed}
         />
       )}
-
-      <SliderBar temp={temp} changeTemp={changeTemp} />
-    </>
+      {city && !empty && <SliderBar temp={temp} changeTemp={changeTemp} />}
+    </div>
   );
 }
 
