@@ -39,3 +39,10 @@
 .bg11 {
   background-color: #ff8c00;
 }
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

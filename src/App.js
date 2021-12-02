@@ -1,13 +1,18 @@
+import { useState, useEffect, Suspense, lazy } from 'react';
+import { TailSpin } from 'react-loading-icons';
+
 import SearchBar from './components/SearchBar';
-import Info from './components/Info';
 import SliderBar from './components/SliderBar';
 import Error from './components/Error';
 import Empty from './components/Empty';
 
-import { useState, useEffect } from 'react';
 import { weatherApiStart, weatherApi } from './api/services';
 
 import s from './App.module.css';
+
+const Info = lazy(() =>
+  import('./components/Info' /* webpackChunkName: "info" */),
+);
 
 // начальный стейт
 const initialState = {
@@ -117,19 +122,26 @@ function App() {
       ].join(' ')}
     >
       <SearchBar fetch={fetch} />
+
       {!city && error && <Error />}
       {empty && !error ? (
         <Empty />
       ) : (
-        <Info
-          icon={icon}
-          city={city}
-          country={country}
-          temp={temp}
-          description={description}
-          humidity={humidity}
-          speed={speed}
-        />
+        <Suspense
+          fallback={
+            <TailSpin className={s.loader} stroke="#06bcee" speed={2} />
+          }
+        >
+          <Info
+            icon={icon}
+            city={city}
+            country={country}
+            temp={temp}
+            description={description}
+            humidity={humidity}
+            speed={speed}
+          />
+        </Suspense>
       )}
       {city && !empty && <SliderBar temp={temp} changeTemp={changeTemp} />}
     </div>

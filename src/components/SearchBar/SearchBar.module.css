@@ -27,3 +27,7 @@
   border-radius: 0px 10px 10px 0px;
   color: black;
 }
+
+.btn:hover {
+  background: rgba(54, 221, 221, 0.7);
+}
