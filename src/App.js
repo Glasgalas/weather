@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy, useCallback } from 'react';
 import { TailSpin } from 'react-loading-icons';
 
 import SearchBar from './components/SearchBar';
@@ -30,20 +30,15 @@ function App() {
   const { icon, city, country, temp, description, humidity, speed } = state;
   const [error, setError] = useState(false);
   const [empty, setEmpty] = useState(false);
-
-  // действие при загрузке
-  useEffect(() => {
-    getLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const [firstUse, setFirstUse] = useState(true);
 
   //получение местоположения пользователя
-  const getLocation = () => {
+  const getLocation = useCallback(() => {
     if (!navigator.geolocation) {
       return;
     }
     navigator.geolocation.getCurrentPosition(pos);
-  };
+  }, []);
 
   //определение координат и запрос по ним
   function pos(position) {
@@ -64,6 +59,11 @@ function App() {
       })
       .catch(error => console.error(error));
   }
+
+  // действие при загрузке
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
 
   //поиск по городу
   const fetch = query => {
