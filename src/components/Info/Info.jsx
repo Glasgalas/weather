@@ -2,12 +2,12 @@ import s from './Info.module.css';
 
 const Info = ({ icon, city, country, temp, description, humidity, speed }) => {
   // адрес иконки
-  const imgUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+  const iconWeather = `/svg/${icon}.svg`;
 
   return (
     city && (
       <div className={s.weather}>
-        <img src={imgUrl} alt="weather-icon" width="100" />
+        <img src={iconWeather} alt="weather-icon" width="100" />
         <p>
           {city} {country}
         </p>
