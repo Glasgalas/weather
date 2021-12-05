@@ -3,7 +3,6 @@ import s from './Info.module.css';
 const Info = ({ icon, city, country, temp, description, humidity, speed }) => {
   // адрес иконки
   const iconWeather = `/svg/${icon}.svg`;
-
   return (
     city && (
       <div className={s.weather}>
@@ -11,7 +10,7 @@ const Info = ({ icon, city, country, temp, description, humidity, speed }) => {
         <p>
           {city} {country}
         </p>
-        <p>{Math.round(temp)}°C</p>
+        <p className={s.temp}>{Math.round(temp)}°C</p>
         <p>Now: {description}</p>
         <p>Humidity: {humidity}%</p>
         <p>Wind speed: {speed} m/s</p>

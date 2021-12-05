@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy, useCallback } from 'react';
 import { TailSpin } from 'react-loading-icons';
 
 import SearchBar from './components/SearchBar';
@@ -30,26 +30,21 @@ function App() {
   const { icon, city, country, temp, description, humidity, speed } = state;
   const [error, setError] = useState(false);
   const [empty, setEmpty] = useState(false);
-
-  // действие при загрузке
-  useEffect(() => {
-    getLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   //получение местоположения пользователя
-  const getLocation = () => {
+  const getLocation = useCallback(() => {
     if (!navigator.geolocation) {
       return;
     }
     navigator.geolocation.getCurrentPosition(pos);
-  };
+  }, []);
 
   //определение координат и запрос по ним
   function pos(position) {
     const latt = position.coords.latitude;
     const long = position.coords.longitude;
-
+    setLoading(true);
     weatherApiStart(latt, long)
       .then(data => {
         setState({
@@ -62,8 +57,14 @@ function App() {
           speed: data.wind.speed,
         });
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error(error))
+      .finally(() => setLoading(false));
   }
+
+  // действие при загрузке
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
 
   //поиск по городу
   const fetch = query => {
@@ -72,6 +73,8 @@ function App() {
       setError(false);
       return;
     } else {
+      setState(initialState);
+      setLoading(true);
       weatherApi(query)
         .then(data => {
           setState({
@@ -90,7 +93,8 @@ function App() {
           setError(true);
           setEmpty(false);
           setState(initialState);
-        });
+        })
+        .finally(() => setLoading(false));
     }
   };
 
@@ -122,7 +126,7 @@ function App() {
       ].join(' ')}
     >
       <SearchBar fetch={fetch} />
-
+      {loading && <TailSpin className={s.loader} stroke="#06bcee" speed={2} />}
       {!city && error && <Error />}
       {empty && !error ? (
         <Empty />
